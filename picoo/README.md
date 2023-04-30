@@ -69,7 +69,7 @@ Picooは画像投稿、タグ付け、タグによる投稿画像の検索、画
 
 特に断りのない限りプロジェクト直下でコマンドを入力する
 
-mysql -u （ユーザー名） -p　でmysqlを起動
+mysql -u root -p　でmysqlを起動
 
 mysqlで create database picoodb; と入力してデータベースを作成する
 
@@ -114,6 +114,13 @@ php artisan make:controller PictureController
 php artisan make:controller UserController　で2つのコントローラファイルを作成する
 
 
+php artisan storage:link でシンボリックリンクを作成する
+
+php artisan make:request PictureRequest
+
+php artisan make:request CommentRequest　で２つのリクエストファイルを作成する
+
+
 php artisan make:seeder UsersTableSeeder
 
 php artisan make:seeder PicturesTableSeeder
@@ -143,6 +150,31 @@ vendor\bin\phpunit tests\Feature\PictureControllerTest.php
 vendor\bin\phpunit tests\Feature\UserControllerTest.php　でテストの実行
 
 
+
+## Dockerでの環境構築
+
+(ここからはdockerの立ち上げ用のコマンドになりますがDocker Desktop および ubuntuの導入が必要です)
+
+(sailがない場合はインストール)composer require laravel/sail --dev
+
+php artisan sail:install　（docker-composeの生成）（その後0,3,4　を選択）
+
+（ubuntuで dockerのコンテナをすべて稼働させる　初回はコンテナ作成も）
+
+./vendor/bin/sail up -d 
+
+
+docker exec -it picoo-mysql-1 bash でmysqlコンテナに入り、
+
+その後 mysql -u sail -p で　パスワード：passwordを入力してmysqlにログイン
+
+その後、 create database picoodb; でデータベース作成し、mysqlから出る
+
+docker-compose exec laravel.test php artisan migrate でテーブル作成
+
+docker-compose exec laravel.test php artisan storage:link　でシンボリックリンク作成
+
 ## 他に記載することがあれば記述する
 メール認証システムにmailtrapを利用しているのでmailtrapの登録が必要です。
+
 envファイルは別途お渡しします。（2点あり、XAMPP,Dockerに対応）
