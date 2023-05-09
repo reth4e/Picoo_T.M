@@ -141,6 +141,12 @@ textarea {
     margin-top: 20vh;
 }
 
+.alert {
+    text-align: center;
+    font-size: 2vw;
+    margin: 5vh 0;
+}
+
 
 
 .picture-form {

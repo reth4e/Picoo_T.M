@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 */
 Route::group(['middleware' => 'verified'],function() {
     Route::get('/', [PictureController::class, 'index']);
-    Route::post('/', [PictureController::class, 'postPicture']);
+    Route::post('/pictures', [PictureController::class, 'postPicture']);
 
     Route::post('/pictures/{picture_id}/tag',[PictureController::class, 'insertTag'])->name('inserttag');
     Route::delete('/pictures/{picture_id}/tag/{tag_id}',[PictureController::class, 'deleteTag'])->name('deletetag');

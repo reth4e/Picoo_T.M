@@ -45,7 +45,7 @@ Picooは画像投稿、タグ付け、タグによる投稿画像の検索、画
 - php 8.1.6
 - Laravel Framework 8.83.27
 - php(amazon linux 2) 8.2.3
-- laravel Framework 8.83.27
+- laravel Framework(amazon linux 2) 8.83.27
 - Docker 20.10.23
 
 
@@ -68,6 +68,7 @@ Picooは画像投稿、タグ付け、タグによる投稿画像の検索、画
 環境構築(XAMPP)　(.envの設定はXAMPP用のものにしてください)
 
 特に断りのない限りプロジェクト直下でコマンドを入力する
+composer create-project "laravel/laravel=8.*" picoo --prefer-dist でプロジェクト作成
 
 mysql -u root -p　でmysqlを起動
 
@@ -153,15 +154,13 @@ vendor\bin\phpunit tests\Feature\UserControllerTest.php　でテストの実行
 
 ## Dockerでの環境構築
 
-(ここからはdockerの立ち上げ用のコマンドになりますがDocker Desktop および ubuntuの導入が必要です)
+(ここからはdockerの立ち上げ用のコマンドになりますがDocker Desktop および linux(ubuntu)の導入が必要です。　また、.envの設定はDocker用にしてください。)
 
 (sailがない場合はインストール)composer require laravel/sail --dev
 
 php artisan sail:install　（docker-composeの生成）（その後0,3,4　を選択）
 
-（ubuntuで dockerのコンテナをすべて稼働させる　初回はコンテナ作成も）
-
-./vendor/bin/sail up -d 
+（ubuntuで dockerのコンテナをすべて稼働させる　初回はコンテナ作成も） ./vendor/bin/sail up -d 
 
 
 docker exec -it picoo-mysql-1 bash でmysqlコンテナに入り、

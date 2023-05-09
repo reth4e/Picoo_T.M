@@ -35,6 +35,7 @@ class UserController extends Controller
 
     public function deleteMyPicture ($picture_id) {
         $picture = Picture::find($picture_id) -> delete();
+        session()->flash('status', '画像を削除しました');
         return back();
     }
 
@@ -46,6 +47,7 @@ class UserController extends Controller
         $user = User::find($user_id);
         $user -> followers_count = count($user -> followers);
         $user -> save();
+        session()->flash('status', 'フォローしました');
         return back();
     }
 
@@ -57,6 +59,7 @@ class UserController extends Controller
         $user = User::find($user_id);
         $user -> followers_count = count($user -> followers);
         $user -> save();
+        session()->flash('status', 'フォロー解除しました');
         return back();
     }
 
@@ -88,6 +91,7 @@ class UserController extends Controller
         $login_user = Auth::user();
         $login_user -> ngUsers() -> syncWithoutDetaching($user_id);
 
+        session()->flash('status', 'NG設定しました');
         return back();
     }
 
@@ -95,6 +99,7 @@ class UserController extends Controller
         $login_user = Auth::user();
         $login_user -> ngUsers() -> detach($user_id);
 
+        session()->flash('status', 'NG解除しました');
         return back();
     }
 
@@ -106,6 +111,7 @@ class UserController extends Controller
         $login_user -> icon_path = 'storage/icons/' . $icon_name;
         unset($login_user['_token']);
         $login_user -> save();
+        session()->flash('status', 'アイコン変更しました');
         return back();
     }
 
@@ -113,6 +119,7 @@ class UserController extends Controller
         $login_user = Auth::user();
         $notification = $login_user -> notifications() -> find($request -> notification_id);
         $notification -> markAsRead();
+        session()->flash('status', '既読化しました');
 
         return back();
     }
@@ -120,6 +127,7 @@ class UserController extends Controller
     public function readAll () {
         auth() -> user() -> unreadNotifications -> markAsRead();
 
+        session()->flash('status', '全件既読化しました');
         return back();
     }
 

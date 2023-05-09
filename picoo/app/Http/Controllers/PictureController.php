@@ -42,12 +42,14 @@ class PictureController extends Controller
 
         $input_tag_to_array = Tag::getTagToArray($input_tag);
         if(count($input_tag_to_array) > 10){
+            session()->flash('status', 'タグの数は10こ以内にしてください');
             return back();
         }
 
         $tag_ids = [];
         foreach($input_tag_to_array as $tag){
             if(strlen($tag) > 20){
+                session()->flash('status', 'タグの字数は20文字以内にしてください');
                 return back();
             }
             $tag = Tag::firstOrCreate([
@@ -65,7 +67,7 @@ class PictureController extends Controller
         $picture -> post_comment = $request -> post_comment;
         $picture -> favorites_count = 0;
         $picture -> save();
-
+        $request->session()->regenerateToken();
 
         $picture -> tags() -> syncWithoutDetaching($tag_ids);
 
@@ -73,11 +75,14 @@ class PictureController extends Controller
         $followers = $login_user -> followers;
         Notification::send($followers, new PictureNotification($picture));
 
+        session()->flash('status', '画像の投稿に成功しました');
+
         $param = [
+            'pictures' => Picture::orderBy('created_at','DESC') -> paginate(20),
             'search_tags' => NULL,
             'notifications' => $login_user -> unreadNotifications() -> orderBy('created_at','DESC') -> take(5) -> get(),
         ];
-        return view('index',$param);
+        return view('pictures',$param);
     }
 
 
@@ -204,10 +209,12 @@ class PictureController extends Controller
         $tag_ids = [];
         $input_tag_to_array = Tag::getTagToArray($input_tag);
         if(count($input_tag_to_array) + $picture -> tag_count > 10){
+            session()->flash('status', 'タグの数は10こ以内にしてください');
             return back();
         }
         foreach($input_tag_to_array as $tag){
             if(strlen($tag) > 20){
+                session()->flash('status', 'タグの字数は20以内にしてください');
                 return back();
             }
             $tag = Tag::firstOrCreate([
@@ -219,6 +226,9 @@ class PictureController extends Controller
         $picture -> tags() -> syncWithoutDetaching($tag_ids);
         $picture -> tag_count = count($picture -> tags);
         $picture -> save();
+        $request->session()->regenerateToken();
+
+        session()->flash('status', 'タグを追加しました');
 
         return back();
     }
@@ -229,6 +239,8 @@ class PictureController extends Controller
         $picture -> tag_count = count($picture -> tags);
         $picture -> save();
 
+        session()->flash('status', 'タグを削除しました');
+
         return back();
     }
 
@@ -237,6 +249,7 @@ class PictureController extends Controller
         $picture -> title = $request -> title;
         unset($picture['_token']);
         $picture -> save();
+        session()->flash('status', 'タイトルを変更しました');
         return back();
     }
 
@@ -245,6 +258,7 @@ class PictureController extends Controller
         $picture -> post_comment = $request -> post_comment;
         unset($picture['_token']);
         $picture -> save();
+        session()->flash('status', '投稿者コメントを変更しました');
         return back();
     }
 
@@ -255,6 +269,8 @@ class PictureController extends Controller
         $comment -> user_id = $request -> user() -> id;
         $comment -> picture_id = $picture_id;
         $comment -> save();
+        $request->session()->regenerateToken();
+        session()->flash('status', '投稿者コメントを変更しました');
 
         return back();
     }
@@ -263,12 +279,14 @@ class PictureController extends Controller
         $comment = Comment::where('id',$comment_id) -> first();
         $comment -> content = $request -> content;
         $comment -> save();
+        session()->flash('status', 'コメントを変更しました');
 
         return back();
     }
 
     public function deleteComment ($comment_id) {
         $comment = Comment::find($comment_id) -> delete();
+        session()->flash('status', 'コメントを削除しました');
         return back();
     }
 
@@ -279,6 +297,7 @@ class PictureController extends Controller
         $picture = Picture::find($picture_id);
         $picture -> favorites_count = count($picture -> usersWhoLike);
         $picture -> save();
+        session()->flash('status', 'いいねしました');
         return back();
     }
 
@@ -289,6 +308,7 @@ class PictureController extends Controller
         $picture = Picture::find($picture_id);
         $picture -> favorites_count = count($picture -> usersWhoLike);
         $picture -> save();
+        session()->flash('status', 'いいねを解除しました');
         return back();
     }
 

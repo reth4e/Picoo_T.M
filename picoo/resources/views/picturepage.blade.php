@@ -38,7 +38,7 @@
                     @if($picture->user->id === Auth::id())
                         <form action = "/pictures/{{$picture -> id}}/post_comment" method = "post" class="picturepage-form">
                             @csrf
-                            <textarea type = "text" name = "post_comment" placeholder = "投稿者コメント編集" rows="20" id="post_comment">{{$picture -> post_comment}}</textarea>
+                            <textarea type = "text" name = "post_comment" placeholder = "投稿者コメント編集" rows="6" id="post_comment">{{$picture -> post_comment}}</textarea>
                             <input type = "hidden" name = "_method" value = "PUT">
                             <input type = "submit" value = "更新"> 
                         </form>
@@ -67,7 +67,7 @@
                         @if($picture->tag_count < 10)
                             <form action = "/pictures/{{$picture -> id}}/tag" method = "post" class="picturepage-tagform">
                                 @csrf
-                                <textarea type = "text" placeholder = "タグの追加(1つにつき20文字まで)" name = "tags" rows="10"></textarea>
+                                <textarea type = "text" placeholder = "タグの追加(1つにつき20文字まで)" name = "tags" rows="5"></textarea>
                                 <input type = "submit" value = "追加">
                             </form>
                         @endif
@@ -90,7 +90,7 @@
                 <div class="picturepage-commentform">
                     <form action = "/pictures/{{$picture -> id}}/comment" method = "post">
                         @csrf
-                        <textarea type = "text" placeholder = "コメント追加(1文字以上200文字以内)" name = "comment" rows="10" required></textarea>
+                        <textarea type = "text" placeholder = "コメント追加(1文字以上200文字以内)" name = "comment" rows="6" required></textarea>
                         <input type = "submit" value = "追加">
                     </form>
                 </div>

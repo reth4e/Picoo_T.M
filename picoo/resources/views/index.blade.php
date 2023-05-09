@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="container">
-        <form class="picture-form" action="/" method="POST" enctype="multipart/form-data">
+        <form class="picture-form" action="/pictures" method="POST" enctype="multipart/form-data">
             @csrf
             
             <input class="picture-form-file" type="file" name="image"  required accept="image/jpeg, image/png, .jpeg, .png"/>
@@ -20,7 +20,7 @@
             </label>
             <label>
                 投稿コメント(300文字以内)
-                <textarea name="post_comment" rows="20" placeholder="投稿コメント"></textarea>
+                <textarea name="post_comment" rows="10" placeholder="投稿コメント"></textarea>
             </label>
             <label>
                 タグ名(20文字以内、10個まで)
