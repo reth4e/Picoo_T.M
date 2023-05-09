@@ -87,7 +87,6 @@ class PictureController extends Controller
 
 
     public function searchPictures(Request $request) {
-        //このアクションとdefaultの改正で日付ソート（このメッセージは消去して）
         $login_user = Auth::user();
 
         $searched_tag = $request -> contents;

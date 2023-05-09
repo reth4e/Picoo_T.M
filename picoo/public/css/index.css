@@ -184,6 +184,18 @@ textarea {
     display: block;
 }
 
+.flex {
+    display: flex;
+}
+
+.w-25vw {
+    width: 25vw;
+}
+
+.bw {
+    word-wrap: break-word;
+}
+
 
 
 .search-result {
