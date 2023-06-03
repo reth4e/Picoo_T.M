@@ -187,6 +187,7 @@ class PictureControllerTest extends TestCase
 
     public function testChangePostComment ()
     {
+        // 投稿者コメントが更新されていることを確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 
@@ -207,6 +208,7 @@ class PictureControllerTest extends TestCase
 
     public function testAddComment ()
     {
+        // コメントが追加されていることを確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 
@@ -227,6 +229,7 @@ class PictureControllerTest extends TestCase
 
     public function testUpdateComment ()
     {
+        //コメントが更新されていることを確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 
@@ -255,7 +258,7 @@ class PictureControllerTest extends TestCase
 
     public function testDeleteComment ()
     {
-        //コメントを投稿した後、削除する、コメントが残っていないことを確認、２項目
+        //コメントを投稿した後削除する、コメントが残っていないことを確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 
@@ -282,6 +285,7 @@ class PictureControllerTest extends TestCase
 
     public function testAddLike ()
     {
+        // いいねがされているか確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 
@@ -303,6 +307,7 @@ class PictureControllerTest extends TestCase
 
     public function testDeleteLike ()
     {
+        // いいねが解除されているか確認、２項目
         $login_user = User::factory() -> create();
         $picture = $this -> test($login_user);
 

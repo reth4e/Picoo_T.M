@@ -90,7 +90,7 @@ class UserControllerTest extends TestCase
 
     public function testAddFollow()
     {
-        //フォローが反映されているか確認
+        //フォローが反映されているか確認,１項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 
@@ -107,7 +107,7 @@ class UserControllerTest extends TestCase
 
     public function testDeleteFollow()
     {
-        //フォローが解消されているか確認
+        //フォローが解消されているか確認,１項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 
@@ -128,7 +128,7 @@ class UserControllerTest extends TestCase
 
     public function testFavorites()
     {
-        //userがいいねした画像が表示されているか確認
+        //userがいいねした画像が表示されているか確認,2項目
         $login_user = User::factory() -> create();
         $picture1 = $this -> test($login_user,'item1.jpg');
         $picture2 = $this -> test($login_user,'item2.jpg');
@@ -144,7 +144,7 @@ class UserControllerTest extends TestCase
 
     public function testFollows()
     {
-        //フォローしたユーザーが表示されているか確認
+        //フォローしたユーザーが表示されているか確認,2項目
         $login_user = User::factory() -> create();
         $another_user1 = User::factory() -> create();
         $another_user2 = User::factory() -> create();
@@ -160,7 +160,7 @@ class UserControllerTest extends TestCase
 
     public function testAddNg()
     {
-        //NGされているか確認
+        //NGされているか確認,１項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 
@@ -177,7 +177,7 @@ class UserControllerTest extends TestCase
 
     public function testDeleteNg()
     {
-        //NGが解除されているか確認
+        //NGが解除されているか確認,１項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 
@@ -198,7 +198,7 @@ class UserControllerTest extends TestCase
 
     public function testRead()
     {
-        //既読化されているか確認
+        //既読化されているか確認,2項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 
@@ -227,7 +227,7 @@ class UserControllerTest extends TestCase
 
     public function testReadAll()
     {
-        //既読化されているか確認
+        //既読化されているか確認,2項目
         $login_user = User::factory() -> create();
         $another_user = User::factory() -> create();
 

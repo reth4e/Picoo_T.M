@@ -10,6 +10,7 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function userPage ($user_id) {
+        //ユーザーページ(idがログインユーザーと一致したらマイページ)
         $login_user = Auth::user();
         $user = User::find($user_id);
         $pictures = $user -> pictures() -> paginate(20);
@@ -21,7 +22,7 @@ class UserController extends Controller
                 'search_tags' => NULL,
                 'notifications' => NULL,
             ];
-            return view('userpage',$param);
+            return view('user_page',$param);
         }
 
         $param = [
@@ -30,16 +31,18 @@ class UserController extends Controller
             'search_tags' => NULL,
             'notifications' => $login_user -> unreadNotifications() -> orderBy('created_at','DESC') -> take(5) -> get(),
         ];
-        return view('userpage',$param);
+        return view('user_page',$param);
     }
 
     public function deleteMyPicture ($picture_id) {
+        //画像削除
         $picture = Picture::find($picture_id) -> delete();
         session()->flash('status', '画像を削除しました');
         return back();
     }
 
     public function addFollow ($user_id) {
+        //フォローする
         $login_user = Auth::user();
 
         $login_user -> follows() -> syncWithoutDetaching($user_id);
@@ -52,6 +55,7 @@ class UserController extends Controller
     }
 
     public function deleteFollow ($user_id) {
+        //フォロー解除
         $login_user = Auth::user();
 
         $login_user -> follows() -> detach($user_id);
@@ -64,6 +68,7 @@ class UserController extends Controller
     }
 
     public function favorites () {
+        // いいねした画像表示
         $login_user = Auth::user();
         $favorites = $login_user -> favorites() -> paginate(20);
 
@@ -76,6 +81,7 @@ class UserController extends Controller
     }
 
     public function follows () {
+        // フォローしたユーザー表示
         $login_user = Auth::user();
         $follows = $login_user -> follows() -> paginate(20);
         
@@ -88,6 +94,7 @@ class UserController extends Controller
     }
 
     public function addNg ($user_id) {
+        // NG設定する
         $login_user = Auth::user();
         $login_user -> ngUsers() -> syncWithoutDetaching($user_id);
 
@@ -96,6 +103,7 @@ class UserController extends Controller
     }
 
     public function deleteNg ($user_id) {
+        // NG解除する
         $login_user = Auth::user();
         $login_user -> ngUsers() -> detach($user_id);
 
@@ -104,6 +112,7 @@ class UserController extends Controller
     }
 
     public function changeIcon (Request $request) {
+        // ユーザーアイコンの変更
         $login_user = Auth::user();
         $icon_name = $request -> file('image') -> getClientOriginalName();
         $request -> file('image') -> storeAs('public/icons' , $icon_name);
@@ -116,6 +125,7 @@ class UserController extends Controller
     }
 
     public function read (Request $request) {
+        // 1件の未読通知を既読化
         $login_user = Auth::user();
         $notification = $login_user -> notifications() -> find($request -> notification_id);
         $notification -> markAsRead();
@@ -125,6 +135,7 @@ class UserController extends Controller
     }
 
     public function readAll () {
+        // すべての未読通知を既読化
         auth() -> user() -> unreadNotifications -> markAsRead();
 
         session()->flash('status', '全件既読化しました');
@@ -132,6 +143,7 @@ class UserController extends Controller
     }
 
     public function notifications () {
+        // 未読通知表示ページ
         $login_user = Auth::user();
 
         $param =[

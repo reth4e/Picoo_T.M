@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="container">
-        <form class="picture-form" id="form" action="/pictures" method="POST" enctype="multipart/form-data">
+        <form class="picture-form" action="/pictures" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="flex jc-sb">
                 <div class="picture">

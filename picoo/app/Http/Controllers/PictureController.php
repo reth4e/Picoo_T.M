@@ -17,6 +17,7 @@ class PictureController extends Controller
 {
     
     public function index(){
+        //画像投稿ページ
         $login_user = Auth::user();
         $param = [
             'search_tags' => NULL,
@@ -28,6 +29,7 @@ class PictureController extends Controller
 
     public function postPicture(PictureRequest $request)
     {
+        //画像投稿処理
         $login_user = Auth::user();
 
         $picture = new Picture;
@@ -87,6 +89,7 @@ class PictureController extends Controller
 
 
     public function searchPictures(Request $request) {
+        //画像検索結果ページ
         $login_user = Auth::user();
 
         $searched_tag = $request -> contents;
@@ -151,6 +154,7 @@ class PictureController extends Controller
     }
 
     public function picturePage(Request $request) {
+        //画像個別ページ
         $login_user = Auth::user();
         $picture = Picture::where('id',$request->picture_id) -> first();
         if(!$picture && $login_user) {
@@ -162,7 +166,7 @@ class PictureController extends Controller
                 'notifications' => $login_user -> unreadNotifications() -> orderBy('created_at','DESC') -> take(5) -> get(),
             ];
             
-            return view('picturepage',$param);
+            return view('picture_page',$param);
         }
         if(!$picture && !$login_user){
             $param = [
@@ -173,7 +177,7 @@ class PictureController extends Controller
                 'notifications' => NULL,
             ];
             
-            return view('picturepage',$param);
+            return view('picture_page',$param);
         }
         
 
@@ -188,7 +192,7 @@ class PictureController extends Controller
                 'search_tags' => NULL,
                 'notifications' => NULL,
             ];
-            return view('picturepage',$param);
+            return view('picture_page',$param);
         }
 
         $param = [
@@ -198,10 +202,11 @@ class PictureController extends Controller
             'search_tags' => NULL,
             'notifications' => $login_user -> unreadNotifications() -> orderBy('created_at','DESC') -> take(5) -> get(),
         ];
-        return view('picturepage',$param);
+        return view('picture_page',$param);
     }
 
     public function insertTag ($picture_id, Request $request) {
+        //画像にタグ追加する
         $picture = Picture::where('id',$picture_id) -> first();
         $input_tag = $request -> tags;
 
@@ -233,6 +238,7 @@ class PictureController extends Controller
     }
 
     public function deleteTag ($picture_id, $tag_id) {
+        //画像のタグを消す
         $picture = Picture::where('id',$picture_id) -> first();
         $picture -> tags() -> detach($tag_id);
         $picture -> tag_count = count($picture -> tags);
@@ -244,6 +250,7 @@ class PictureController extends Controller
     }
 
     public function changeTitle ($picture_id, PictureRequest $request) {
+        //画像タイトル変更
         $picture = Picture::where('id',$picture_id) -> first();
         $picture -> title = $request -> title;
         unset($picture['_token']);
@@ -253,6 +260,7 @@ class PictureController extends Controller
     }
 
     public function changePostComment ($picture_id, PictureRequest $request) {
+        //投稿者コメント変更
         $picture = Picture::where('id',$picture_id) -> first();
         $picture -> post_comment = $request -> post_comment;
         unset($picture['_token']);
@@ -262,7 +270,7 @@ class PictureController extends Controller
     }
 
     public function addComment ($picture_id, CommentRequest $request) {
-
+        //コメント追加
         $comment = new Comment;
         $comment -> content = $request -> comment;
         $comment -> user_id = $request -> user() -> id;
@@ -275,6 +283,7 @@ class PictureController extends Controller
     }
 
     public function updateComment ($comment_id ,CommentRequest $request) {
+        //コメント変更
         $comment = Comment::where('id',$comment_id) -> first();
         $comment -> content = $request -> content;
         $comment -> save();
@@ -284,12 +293,14 @@ class PictureController extends Controller
     }
 
     public function deleteComment ($comment_id) {
+        //コメント削除
         $comment = Comment::find($comment_id) -> delete();
         session()->flash('status', 'コメントを削除しました');
         return back();
     }
 
     public function addLike ($picture_id) {
+        //いいねする
         $login_user = Auth::user();
         $login_user -> favorites() -> syncWithoutDetaching($picture_id);
 
@@ -301,6 +312,7 @@ class PictureController extends Controller
     }
 
     public function deleteLike ($picture_id) {
+        //いいね解除
         $login_user = Auth::user();
         $login_user -> favorites() -> detach($picture_id);
 
@@ -312,6 +324,7 @@ class PictureController extends Controller
     }
 
     public function popularPage () {
+        //人気ユーザー・画像表示
         $login_user = Auth::user();
         $popular_pictures = Picture::orderBy('favorites_count','DESC')->take(20)->get();
         $popular_users = User::orderBy('followers_count','DESC')->take(20)->get();
@@ -323,7 +336,7 @@ class PictureController extends Controller
                 'search_tags' => NULL,
                 'notifications' => NULL,
             ];
-            return view('popularpage',$param);
+            return view('popular_page',$param);
         }
 
         $param =[
@@ -332,6 +345,6 @@ class PictureController extends Controller
             'search_tags' => NULL,
             'notifications' => $login_user -> unreadNotifications() -> orderBy('created_at','DESC') -> take(5) -> get(),
         ];
-        return view('popularpage',$param);
+        return view('popular_page',$param);
     }
 }

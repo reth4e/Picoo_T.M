@@ -26,7 +26,7 @@
         
         <nav class="header-nav">
             <p class="header-menu" id="menu">メニュー</p>
-            <!-- 以下はクリックで表示 -->
+            <!-- ドロップダウンメニュー -->
             <div class="dropdown" id = "dropdown">
                 @if (auth()->user())
                 <div class="notification-block">
