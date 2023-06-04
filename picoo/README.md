@@ -6,9 +6,11 @@ Picooは画像投稿、タグ付け、タグによる投稿画像の検索、画
 
 以下は投稿ページと画像一覧ページのスクリーンショットです。
 
-< --- アプリ画面の画像 ---- >
+< --- トップ画面の画像 ---- >
 
 ![トップ画面](top.png)
+
+< --- 画像一覧ページの画像 ---- >
 
 ![画像一覧画面](pictures.png)
 
@@ -44,9 +46,12 @@ Picooは画像投稿、タグ付け、タグによる投稿画像の検索、画
 
 - php 8.1.6
 - Laravel Framework 8.83.27
+- MariaDB(xampp) 10.4.24
 - php(amazon linux 2) 8.2.3
 - laravel Framework(amazon linux 2) 8.83.27
+- mysql(amazon linux 2) 8.0.28
 - Docker 20.10.23
+- mysql(Docker) 8.0.32
 
 
 ## テーブル設計

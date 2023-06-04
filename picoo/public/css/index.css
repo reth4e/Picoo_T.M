@@ -93,13 +93,13 @@ textarea {
 .header-nav {
     background-color: #ddd;
     width: 20vw;
+    z-index: 1;
 }
 
 .dropdown {
     margin-right: 3vw;
     display: none;
     list-style-type: none;
-    z-index: 1;
     width: 20vw;
     background-color: #ddd;
 }
@@ -415,6 +415,7 @@ textarea {
     .header-nav {
         width: 15vw;
         margin-right: 1vw;
+        z-index: 1;
     }
 
     .dropdown {
